@@ -2,6 +2,7 @@
 
 You get a CSV from somewhere — an email, a vendor export, a quick pull.
 You expect missing values, duplicates, and odd ranges.
+
 Instead of writing manual validation queries, this project lets the data describe its own quality rules.
 
 This is a local-first data quality workflow that profiles a dataset, generates validation rules using a local LLM, runs checks in DuckDB, and produces a readable report.
@@ -31,18 +32,18 @@ Each step is a node, state flows through the graph, and errors are captured inst
 
 ## 🏗️ Architecture (High level)
 
-- **DuckDB** = local analytics engine (no setup)
-- **LangGraph** = orchestration / workflow graph
-- **Ollama** = local LLM for rule generation
-- **Markdown report** = simple output anyone can read
+- **DuckDB** – local analytics engine (no setup)
+- **LangGraph** – orchestration / workflow graph
+- **Ollama** – local LLM for rule generation
+- **Markdown report** – simple output anyone can read
 
 ---
 
 ## 📂 Input & Output
-📥 Input
+**📥 Input**
 examples/sample_data.csv
 
-📤 Output
+**📤 Output**
 outputs/report.md
 
 ---
