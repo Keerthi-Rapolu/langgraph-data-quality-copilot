@@ -1,0 +1,8 @@
+duckdb
+pandas
+langgraph
+langchain
+langchain-community
+python-dotenv
+rich
+great-expectations
