@@ -40,10 +40,10 @@ Each step is a node, state flows through the graph, and errors are captured inst
 ---
 
 ## 📂 Input & Output
-**📥 Input**
+**📥 Input**: 
 examples/sample_data.csv
 
-**📤 Output**
+**📤 Output**: 
 outputs/report.md
 
 ---
