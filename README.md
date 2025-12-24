@@ -1,21 +1,12 @@
 # 🐙 LangGraph Data Quality Copilot (Local LLM + DuckDB)
 
-Imagine this.
+You get a CSV from somewhere — an email, a vendor export, a quick pull.
+You expect missing values, duplicates, and odd ranges.
+Instead of writing manual validation queries, this project lets the data describe its own quality rules.
 
-You just got a CSV from “somewhere” (email, S3 export, vendor drop, quick extract).
-You *know* it’s going to have duplicates, missing values, weird ranges…  
-But you don’t want to spend your evening writing 20 validation queries.
+This is a local-first data quality workflow that profiles a dataset, generates validation rules using a local LLM, runs checks in DuckDB, and produces a readable report.
 
-So I built a copilot.
-
-This project is a **local-first Data Quality agent** that:
-1) loads a dataset into DuckDB  
-2) profiles the data like a curious analyst  
-3) asks a local LLM (Ollama) to propose quality rules  
-4) validates those rules against the dataset  
-5) produces a human-readable report you can share
-
-No cloud keys needed. No paid APIs. Just **you + your laptop**.
+No cloud setup. No paid APIs.
 
 ---
 
@@ -31,17 +22,10 @@ No cloud keys needed. No paid APIs. Just **you + your laptop**.
 
 ## 🧠 Why LangGraph?
 
-Because data engineering pipelines aren’t “one big script”.
-
-They are **steps**, **state**, **guardrails**, and **retries**.
-
-LangGraph makes that explicit:
-
+This workflow is not a single script. It is a sequence of steps with shared state.
+LangGraph makes the pipeline explicit:
 `load → profile → propose_rules → validate → report`
-
-Each step is a node.
-The shared state moves through the graph.
-Failures don’t crash everything — they get captured as structured errors.
+Each step is a node, state flows through the graph, and errors are captured instead of crashing the run.
 
 ---
 
@@ -54,10 +38,24 @@ Failures don’t crash everything — they get captured as structured errors.
 
 ---
 
-## 🚀 Quickstart
+## 📂 Input & Output
+📥 Input
+examples/sample_data.csv
 
-### 1) Start Ollama + pull a model
-Install Ollama, then:
+📤 Output
+outputs/report.md
 
-```bash
-ollama pull qwen2.5:7b
+---
+
+## 🚀 Why this approach
+Rule discovery is automated
+Runs fully offline
+Easy to extend or replace components
+Useful for exploration, validation, and learning
+
+---
+
+## 🚫 Non-goals
+Not a production data quality platform
+Not distributed or real-time
+Not multi-user
