@@ -49,13 +49,18 @@ outputs/report.md
 
 ## 🚀 Why this approach
 Rule discovery is automated
+
 Runs fully offline
+
 Easy to extend or replace components
+
 Useful for exploration, validation, and learning
 
 ---
 
 ## 🚫 Non-goals
 Not a production data quality platform
+
 Not distributed or real-time
+
 Not multi-user
