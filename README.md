@@ -140,10 +140,9 @@ langgraph-data-quality-copilot/
 ├── main.py
 ├── requirements.txt
 └── README.md
-
+```
 ---
 
-**## 🔁 Workflow States (Mapped)**
 ## 🧠 Why LangGraph?
 
 This workflow is not a single script. It is a sequence of steps with shared state.
