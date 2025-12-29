@@ -1,29 +1,69 @@
-# 🐙 LangGraph Data Quality Copilot  
-**Local LLM + DuckDB + LangGraph**
+# 🐙 LangGraph Data Quality Copilot
 
-An AI-assisted, **local-first data quality workflow** that profiles datasets, generates validation rules, runs checks, and produces a clear, human-readable report — all without cloud APIs.
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Local LLM](https://img.shields.io/badge/LLM-local--first-orange)
 
----
+A **local-first, agentic data quality system** built with **LangGraph**, **DuckDB**, and **local LLMs (Ollama)**.
 
-## 📌 What this project is
-
-You receive a dataset — a vendor CSV, a client export, or a quick pull from S3.  
-You already expect issues: missing values, duplicates, invalid ranges, or inconsistent types.
-
-Instead of manually writing validation SQL every time, this project automates the workflow:
-
-- Profile the dataset
-- Let an AI suggest data quality rules
-- Validate the data using those rules
-- Generate a clear Markdown report
-
-Everything runs **locally** using DuckDB and a local LLM (Ollama).
+This project automates data profiling, rule generation, validation, and reporting — without cloud dependencies.
 
 ---
 
-## 🏗️ Architecture Overview
+## 🎯 What Problem This Solves
 
-This project is built as a **state-driven workflow** using LangGraph.
+You receive CSV data from vendors, ad‑hoc exports, or internal teams.
+
+You expect:
+- missing values
+- duplicates
+- invalid ranges
+- inconsistent formats
+
+But writing and maintaining dozens of validation queries is slow and brittle.
+
+This project replaces that manual work with an **agent-based data quality pipeline**.
+
+---
+
+## ✨ What It Does
+
+✅ Profiles datasets automatically  
+✅ Uses an LLM to propose quality rules  
+✅ Validates rules against real data using DuckDB  
+✅ Produces a human‑readable Markdown report  
+✅ Runs fully **offline** on your laptop
+
+---
+
+## 🧠 Why LangGraph (Not Traditional Scripts)
+
+Traditional approach:
+- Hard‑coded SQL checks
+- Manual updates per dataset
+- No reasoning or explanation
+
+LangGraph approach:
+- Stateful workflow
+- Clear node responsibilities
+- Deterministic execution
+- LLM reasoning only where needed
+
+This makes the system **inspectable, extensible, and production‑shaped**.
+
+---
+
+## 🏗 Architecture Overview
+
+The system is implemented as a **LangGraph state machine**:
+
+1. **Ingest Node** – loads CSV into DuckDB
+2. **Profile Node** – computes nulls, ranges, distincts
+3. **Rule Generator Node** – LLM proposes validation rules
+4. **Validation Node** – rules executed via SQL
+5. **Report Node** – generates Markdown output
+
+Each node updates a shared state object passed through the graph.
 
 ### Core Components
 
@@ -55,140 +95,141 @@ This project is built as a **state-driven workflow** using LangGraph.
 
 ---
 
-## 🔄 Workflow States (Conceptual)
+## 📂 Project Structure
 
-Each box in the architecture diagram maps directly to a LangGraph state.
-
-### 1. Load Data
-- Reads the input CSV file
-- Makes the dataset available to downstream states
-
-### 2. Profile Data
-- Computes dataset statistics such as:
-  - Null counts
-  - Distinct counts
-  - Value ranges
-  - Inferred data types
-
-### 3. Generate Rules
-- Sends profiling statistics to the local LLM
-- Receives proposed data quality rules (e.g., null checks, range checks)
-
-### 4. Validate Data
-- Executes validation logic in DuckDB
-- Evaluates data against generated rules
-
-### 5. Generate Report
-- Produces a Markdown report summarizing:
-  - Applied rules
-  - Failed checks
-  - Observed data quality issues
-
----
-
-## 🔁 Workflow States (Mapped)
-
-| State              | Responsibility                              |
-|--------------------|---------------------------------------------|
-| Load Data          | Reads CSV into memory                       |
-| Profile Data       | Computes dataset statistics                 |
-| Generate Rules     | AI proposes quality rules                   |
-| Validate Data      | Runs validation using DuckDB                |
-| Generate Report    | Writes a Markdown quality report            |
-
----
-
-## 🔧 Prerequisites
-
-- Python 3.10+
-- Ollama installed and running
-
-Pull a model (example):
-
-ollama pull llama3.1
-
----
-
-## 🚀 Quickstart
-
-git clone https://github.com/Keerthi-Rapolu/langgraph-data-quality-copilot  
-cd langgraph-data-quality-copilot  
-
-python -m venv .venv  
-
-Windows  - .venv\Scripts\activate  
-macOS / Linux  - source .venv/bin/activate  
-
-pip install -r requirements.txt  
-
-python -m src.main --input examples/sample_data.csv --output outputs/report.md
-
----
-
-## 📥 Input and 📤 Output
-
-### Input
-- `data/customer_data.csv`
-
-### Output
-- `reports/quality_report.md`
-
----
-
-## 📁 Project Structure
-
-```text
+```
 langgraph-data-quality-copilot/
-│
 ├── data/
-│   └── sample_data.csv
-│
+│   └── sample.csv
 ├── src/
 │   ├── graph.py
-│   ├── states/
-│   │   ├── load_data.py
-│   │   ├── profile_data.py
+│   ├── state.py
+│   ├── nodes/
+│   │   ├── ingest.py
+│   │   ├── profile.py
 │   │   ├── generate_rules.py
-│   │   ├── validate_data.py
-│   │   └── generate_report.py
-│   │
-│   ├── db/
-│   │   └── duckdb_client.py
-│   │
-│   └── llm/
-│       └── ollama_client.py
-│
-├── reports/
-│   └── quality_report.md
-│
-├── docs/
-│   └── architecture.png
-│
-├── main.py
+│   │   ├── validate.py
+│   │   └── report.py
+│   └── main.py
+├── outputs/
+│   └── data_quality_report.md
 ├── requirements.txt
 └── README.md
 ```
----
-
-## 🧠 Why LangGraph?
-
-This workflow is not a single script. It is a sequence of steps with shared state.
-LangGraph makes the pipeline explicit:
-`load → profile → propose_rules → validate → report`
-Each step is a node, state flows through the graph, and errors are captured instead of crashing the run.
 
 ---
 
-## 🚀 Why this approach
-- Rule discovery is automated
-- Runs fully offline
-- Easy to extend or replace components
-- Useful for exploration, validation, and learning
+## 🚀 Quick Start
+
+### 1️⃣ Prerequisites
+
+- Python **3.10+**
+- Ollama installed and running
+
+Pull a local model:
+```bash
+ollama pull llama3.1
+```
 
 ---
 
-## 🚫 Non-goals
-- Not a production data quality platform
-- Not distributed or real-time
-- Not multi-user
+### 2️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 3️⃣ Run the Copilot
+
+```bash
+python -m src.main --input data/sample.csv
+```
+
+---
+
+## 📄 Example Output
+
+Console:
+```
+✔ Dataset loaded into DuckDB
+✔ Profiling completed
+✔ 14 rules generated
+✖ 3 rule failures detected
+✔ Report saved to outputs/data_quality_report.md
+```
+
+Report excerpt:
+```
+Column: age
+- Rule: age must be between 0 and 120
+- Failures: 7 rows
+- Suggested Fix: investigate negative values
+```
+
+---
+
+## ⚙️ Configuration
+
+Supported CLI options:
+
+| Option | Description |
+|------|------------|
+| `--input` | Path to CSV file |
+| `--model` | Ollama model name (default: llama3.1) |
+| `--output` | Output report path |
+
+---
+
+## 🧪 Testing
+
+```bash
+pytest tests/
+```
+
+---
+
+## 🔒 Privacy & Security
+
+- No data leaves your machine
+- No API keys required
+- Fully offline execution
+
+---
+
+## 🛠 Extending the System
+
+You can easily add:
+- New validation strategies
+- Different report formats (HTML / JSON)
+- Cloud warehouses (Snowflake / BigQuery)
+- CI validation on pull requests
+
+---
+
+## 📜 License
+
+MIT License. See `LICENSE` file for details.
+
+---
+
+## 🙌 Acknowledgements
+
+- LangGraph
+- DuckDB
+- Ollama
+
+---
+
+## ⭐ When This Is Useful
+
+✔ Vendor data validation  
+✔ One‑off CSV audits  
+✔ Data engineering demos  
+✔ Learning agentic workflows  
+
+---
+
+If you want this adapted for **Snowflake**, **Databricks**, or **CI pipelines**, the architecture already supports it.
 
