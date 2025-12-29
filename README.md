@@ -1,14 +1,49 @@
 # 🐙 LangGraph Data Quality Copilot (Local LLM + DuckDB)
 
-You get a CSV from somewhere — an email, a vendor export, a quick pull.
-You expect missing values, duplicates, and odd ranges.
+AI-assisted Data Quality Workflow using DuckDB, LangGraph, and a local LLM (Ollama)
+Automated dataset profiling, rule generation, validation, and reporting.
 
-Instead of writing manual validation queries, this project lets the data describe its own quality rules.
+Imagine this:
+You receive a dataset — maybe a vendor file, a client CSV, or a quick export from S3.
+You suspect there will be missing values, duplicates, inconsistent ranges, and other quality issues.
 
-This is a local-first data quality workflow that profiles a dataset, generates validation rules using a local LLM, runs checks in DuckDB, and produces a readable report.
+Instead of manually writing dozens of validation scripts, this project automates the process by:
+- Profiling a dataset
+- Letting an AI suggest quality rules
+- Validating the data using those rules
+- Producing a clear report
 
-No cloud setup. No paid APIs.
+---
 
+## 🏗️ Architecture 
+
+## Core Components
+
+### 1. Input CSV
+- Raw dataset provided by a user or vendor  
+- Example: `customer_data.csv`
+
+### 2. LangGraph Workflow
+- Orchestrates each processing step as a state  
+- Ensures predictable, step-by-step execution
+
+### 3. DuckDB
+- Local analytical database  
+- Used for data profiling and validation
+
+### 4. Local LLM (Ollama)
+- Generates data quality rules from dataset statistics  
+- No external API calls required
+
+### 5. Output Report
+- Markdown file summarizing data quality issues  
+- Example: `report.md`
+
+- **DuckDB** – local analytics engine (no setup)
+- **LangGraph** – orchestration / workflow graph
+- **Ollama** – local LLM for rule generation
+- **Markdown report** – simple output anyone can read
+  
 ---
 
 ## ✨ What it does
@@ -27,15 +62,6 @@ This workflow is not a single script. It is a sequence of steps with shared stat
 LangGraph makes the pipeline explicit:
 `load → profile → propose_rules → validate → report`
 Each step is a node, state flows through the graph, and errors are captured instead of crashing the run.
-
----
-
-## 🏗️ Architecture (High level)
-
-- **DuckDB** – local analytics engine (no setup)
-- **LangGraph** – orchestration / workflow graph
-- **Ollama** – local LLM for rule generation
-- **Markdown report** – simple output anyone can read
 
 ---
 
