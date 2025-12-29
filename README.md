@@ -98,6 +98,34 @@ Each box in the architecture diagram maps directly to a LangGraph state.
 
 ---
 
+## 🔧 Prerequisites
+
+- Python 3.10+
+- Ollama installed and running
+
+Pull a model (example):
+
+ollama pull llama3.1
+
+---
+
+## 🚀 Quickstart
+
+git clone https://github.com/Keerthi-Rapolu/langgraph-data-quality-copilot  
+cd langgraph-data-quality-copilot  
+
+python -m venv .venv  
+# Windows  
+.venv\Scripts\activate  
+# macOS / Linux  
+# source .venv/bin/activate  
+
+pip install -r requirements.txt  
+
+python -m src.main --input examples/sample_data.csv --output outputs/report.md
+
+---
+
 ## 📥 Input and 📤 Output
 
 ### Input
