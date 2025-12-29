@@ -115,10 +115,10 @@ git clone https://github.com/Keerthi-Rapolu/langgraph-data-quality-copilot
 cd langgraph-data-quality-copilot  
 
 python -m venv .venv  
-# Windows  
+### Windows  
 .venv\Scripts\activate  
-# macOS / Linux  
-# source .venv/bin/activate  
+### macOS / Linux  
+source .venv/bin/activate  
 
 pip install -r requirements.txt  
 
