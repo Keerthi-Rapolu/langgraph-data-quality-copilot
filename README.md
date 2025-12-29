@@ -143,6 +143,7 @@ langgraph-data-quality-copilot/
 
 ---
 
+**## 🔁 Workflow States (Mapped)**
 ## 🧠 Why LangGraph?
 
 This workflow is not a single script. It is a sequence of steps with shared state.
